@@ -4,7 +4,46 @@ These ECUs have a common diagnostic protocol
 
 The 1.9 ECU is slightly different in how this is initialised, but the rest are all the same
 
-Still need to format this properly for markdown
+## Serial comms
+
+9600,8,N,1
+
+9600 Baud  
+8 Data bits  
+No Parity  
+1 Stop bit  
+(assumed 1 start bit)
+
+Send single bytes (commands) at a time, ECU echos your command back to you, and will respond with more data if it is an acceptable command
+
+### 1.2, 1.3, 1.6 ECU
+
+Serial TX and RX, 5 volt TTL levels
+
+### 1.9 ECU
+
+K-line
+
+## Init
+
+### 1.2, 1.3, 1.6 ECUs
+
+Send 0xCA, 0x75
+
+### 1.9 ECUs
+
+ISO 9141 5-baud wake up with ECU address 0x16, then invert second byte of the ECU reply
+
+Connect at 9600 Baud rate, 8 bits, 1 stop bit, NO parity
+
+Send byte 0x16 at 5 baud rate, then swap back to 9600 baud rate treat it like a 1.3/1.6 ECU including doing the 1.3/1.6 init sequence
+
+Most serial cables won't do 5 baud rate so you can use breaks to do this, only some cables allow breaks to be used in this way, FTDI based ones do
+
+No auth beyond the init sequence
+
+
+## TODO: format the below
 
 
 Main portion of the PC application code is here: https://github.com/james-portman/rover-mems-agent/
