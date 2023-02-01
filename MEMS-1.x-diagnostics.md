@@ -18,7 +18,7 @@ Send single bytes (commands) at a time, ECU echos your command back to you, and 
 
 ### 1.2, 1.3, 1.6 ECU
 
-Serial TX and RX, 5 volt TTL levels
+Serial TX and RX, 5 volt TTL levels, 3.3v will not work
 
 ### 1.9 ECU
 
