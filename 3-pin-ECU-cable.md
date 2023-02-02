@@ -15,3 +15,6 @@ Prolific make some which are fine - PL2303-HXD, avoid PL2303-HXA or others as Pr
 Diagnostic side connectors are TE part 172201-1, Mouser have approx 1,000 in stock as of writing but they are marked as end-of-life so no more will be made
 
 Diagnostic side pins are TE part 170280-1
+
+
+![3-pin connector](images/ecu-3-pin.jpg "3-pin connector")
