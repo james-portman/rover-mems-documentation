@@ -5,6 +5,8 @@ See other files in this repo for specifics per ECU/Module
 
 [16 pin 5AS cable](16-pin-5AS-cable.md)
 
+[16 pin ECU cable](16-pin-ECU-cable.md)
+
 [3 pin 5AS cable](3-pin-5AS-cable.md)
 
 [3 pin ECU cable](3-pin-ECU-cable.md)
