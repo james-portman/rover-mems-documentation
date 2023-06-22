@@ -50,12 +50,12 @@ Main portion of the PC application code is here: https://github.com/james-portma
 This may mean absolutely nothing to most people.<br>
 I am trying to catalogue information about how to communicate with these ECUs for anyone who wants to know more, or join in with the development work.<br>
 There is a lot of very good information out there already but it is all a bit disjointed or only applies to certain ECU versions.<br>
-## Wake up/initialize ECU<br>
+## Wake up/initialize ECU
 ### MEMS 1.3 and 1.6<br>
 Send bytes 0xCA, 0x75, 0xD0<br>
 ECU should reply 0xCA, 0x75, 0xD0, then 4 more bytes which is the ECU ID<br>
 5V TTL level must be used or the ECU will not respond<br>
-### MEMS 1.2, 1.3, 1.6, 1.9 "Data packets"<br>
+### MEMS 1.2, 1.3, 1.6, 1.9 "Data packets"
 These ECUs respond to the commands 0x80 and 0x7D with data packets, which have multiple data points in<br>
 The (single plug?) 1.2 ECUs do not respond with a 0x7D packet at all<br>
 Each version replies with a slightly different amount of data<br>
@@ -63,17 +63,17 @@ The first byte of the packet (ignoring the echo/command reply) is the length, so
 <br>
 Information is a bit vague/mixed but here is the best explanation I can get so far for the data points:<br>
 <br>
-### Data packet 0x7D<br>
+### Data packet 0x7D
 0x00 Size of data packet, including this byte<br>
 0x01 Ignition switch - 0 for off (does comms even work with ignition off?)<br>
 0x02 Throttle angle - divide by 2 for degrees throttle open<br>
 0x03 Unknown<br>
 0x04 Sometimes documented to be air/fuel ratio, but often observed to never change from 0xFF<br>
 0x05 DTC byte<br>
-   bit 3 - lambda heater (relay)<br>
-   bit 4 - crank shaft sync<br>
-   bit 5 - fan 1 control<br>
-   bit 7 - fan 2 control<br>
+&emsp;bit 3 - lambda heater (relay)<br>
+&emsp;bit 4 - crank shaft sync<br>
+&emsp;bit 5 - fan 1 control<br>
+&emsp;bit 7 - fan 2 control<br>
 0x06 Lambda sensor voltage, 0.5mv per LSB<br>
 0x07 Lambda sensor - 0=off, greater=on<br>
 0x08 Lambda sensor duty cycle?<br>
@@ -83,22 +83,22 @@ Information is a bit vague/mixed but here is the best explanation I can get so f
 0x0C Fuel correction, 1% per LSB, 100 is normal, could be 100-[this value]?<br>
 0x0D Carbon canister purge valve duty cycle?<br>
 0x0E DTC<br>
-   bit 1 - cam shaft sync<br>
+&emsp;bit 1 - cam shaft sync<br>
 0x0F Idle position - 0 to 255 steps<br>
 0x10 Unknown<br>
 0x11 DTC<br>
-   bit 6 - RPM gauge circuit<br>
+&emsp;bit 6 - RPM gauge circuit<br>
 0x12 Unknown<br>
 0x13 Unknown<br>
 0x14 Idle error?<br>
 0x15 Unknown<br>
 0x16 DTC<br>
-   bit 1 - injector 1/4 driver<br>
-   bit 2 - injector 2/3 driver<br>
-   bit 3 - engine bay ventilator warning light<br>
-   bit 4 - engine bay ventilator relay<br>
-   bit 5 - hill assist<br>
-   bit 6 - cruise control<br>
+&emsp;bit 1 - injector 1/4 driver<br>
+&emsp;bit 2 - injector 2/3 driver<br>
+&emsp;bit 3 - engine bay ventilator warning light<br>
+&emsp;bit 4 - engine bay ventilator relay<br>
+&emsp;bit 5 - hill assist<br>
+&emsp;bit 6 - cruise control<br>
 0x17<br>
 0x18<br>
 0x19<br>
@@ -110,7 +110,7 @@ Information is a bit vague/mixed but here is the best explanation I can get so f
 0x1F - Crank counter?<br>
 <br>
 <br>
-### Data packet 0x80<br>
+### Data packet 0x80
 0x00 Size of data packet, including this byte<br>
 0x01-2 Engine speed in RPM (16 bits)<br>
 0x03 Coolant temperature in degrees C with +55 offset and 8-bit wrap<br>
@@ -124,20 +124,20 @@ Information is a bit vague/mixed but here is the best explanation I can get so f
 0x0B Unknown. Probably a bitfield. Observed as 0x24 with engine off, and 0x20 with engine running. A single sample during a fifteen minute test drive showed a value of 0x30.<br>
 0x0C Park/neutral switch. Zero is closed, nonzero is open. Air con switch?<br>
 0x0D Fault codes. On the Mini SPi, only two bits in this location are checked:<br>
-   Bit 0: Coolant temp sensor fault (Code 1)<br>
-   Bit 1: Inlet air temp sensor fault (Code 2)<br>
-   bit 3: turbo overboosted<br>
-   bit 4: ambient temp sensor<br>
-   bit 5: fuel rail temp sensor<br>
-   bit 6: knock detected<br>
+&emsp;Bit 0: Coolant temp sensor fault (Code 1)<br>
+&emsp;Bit 1: Inlet air temp sensor fault (Code 2)<br>
+&emsp;bit 3: turbo overboosted<br>
+&emsp;bit 4: ambient temp sensor<br>
+&emsp;bit 5: fuel rail temp sensor<br>
+&emsp;bit 6: knock detected<br>
 0x0E Fault codes. On the Mini SPi, only two bits in this location are checked:<br>
-   bit 0: (coolant?) temperature gauge<br>
-   Bit 1: Fuel pump circuit fault (Code 10)<br>
-   bit 3: air con clutch<br>
-   bit 4: purge valve<br>
-   bit 5: map sensor<br>
-   bit 6: boost valve<br>
-   Bit 7: Throttle pot circuit fault (Code 16)<br>
+&emsp;bit 0: (coolant?) temperature gauge<br>
+&emsp;Bit 1: Fuel pump circuit fault (Code 10)<br>
+&emsp;bit 3: air con clutch<br>
+&emsp;bit 4: purge valve<br>
+&emsp;bit 5: map sensor<br>
+&emsp;bit 6: boost valve<br>
+&emsp;Bit 7: Throttle pot circuit fault (Code 16)<br>
 0x0F Idle setpoint - 0 to 1556 RPM (6.1x this value)<br>
 0x10 Idle HotBDPos, steps?<br>
 0x11 Unknown<br>
@@ -147,10 +147,10 @@ Information is a bit vague/mixed but here is the best explanation I can get so f
 0x16 Ignition advance, 0.5 degrees per LSB with range of -24 deg (0x00) to 103.5 deg (0xFF), -30 to 129.38 degrees?<br>
 0x17-18 Coil charge/dwell time, 0.002 milliseconds per LSB (16 bits) - 0 to 130.56 microseconds<br>
 <br>
-## MEMS 1.3, 1.6, 1.9 "Commands"<br>
+## MEMS 1.3, 1.6, 1.9 "Commands"
 Still being tidied/updated<br>
 <i>Command	Info	Response</i><br>
-### Stop/Disable commands (match the Start/enable commands but swap 0/1 at start)	<br>
+### Stop/Disable commands (match the Start/enable commands but swap 0/1 at start)
 0x00	Coolant gauge	0x00, 0x00<br>
 0x01	Fuel pump relay	0x01, 0x00<br>
 0x02	PTC (inlet manifold heater) relay	0x02, 0x00<br>
@@ -167,7 +167,7 @@ Still being tidied/updated<br>
 0x0D	Fan 1	<br>
 0x0E	Fan 2	<br>
 0x0F	Variable valve timing	<br>
-### Start/Enable commands (match the open commands but swap 0/1 at start)	<br>
+### Start/Enable commands (match the open commands but swap 0/1 at start)
 0x10	Coolant gauge	0x10, 0x00<br>
 0x11	Fuel pump relay	0x11, 0x00<br>
 0x12	PTC (inlet manifold heater) relay	0x12, 0x00<br>
@@ -184,7 +184,7 @@ Still being tidied/updated<br>
 0x1D	Fan 1 relay	0x1D<br>
 0x1E	Fan 2 relay	0x1E<br>
 0x1F	Variable valve timing	<br>
-### End of Start/Stop grouped commands (there are some more later)	<br>
+### End of Start/Stop grouped commands (there are some more later)
 0x20	Engine bay temperature warning light off	20 00<br>
 0x21	Cruise control disable relay	21 00<br>
 0x30	Engine bay temperature warning light on	30 00<br>
@@ -224,8 +224,8 @@ Still being tidied/updated<br>
 0xCF	Alternate first byte of init (different diag mode/security level?)	CF<br>
 0xD0	ECU/Software ID	D0 99 00 03 03<br>
 0xD1	ECU/Software IDs 1x integer, 1x Ascii	D1 41 42 4E 4D 50 30 30 33 99 00 03 03 41 42 4E 4D 50 30 30 33 99 00 03 03 41 42 4E 4D 50 30 30 33 99 00 03 03<br>
-e.g. integer: 99 00 03 03<br>
-e.g. string/Ascii: 41 42 4E 4D 50 30 30 33 = ABNMP003<br>
+&emsp;&emsp;e.g. integer: 99 00 03 03<br>
+&emsp;&emsp;e.g. string/Ascii: 41 42 4E 4D 50 30 30 33 = ABNMP003<br>
 0xD2	Read security status	D2, followed by 02 01, 00 01, or 01 01<br>
 0xD3	Recode ECU	D3, followed by 02 01, 00 02, or 01 01 (reply needs checking)<br>
 0xDA	Test injector 1 (mems 1.9)	DA, 01?<br>
@@ -260,7 +260,7 @@ e.g. string/Ascii: 41 42 4E 4D 50 30 30 33 = ABNMP003<br>
 0xFF	Request current IAC position?	<br>
 <br>
 <br>
-## Diag mode 4 commands - factory programming<br>
+## Diag mode 4 commands - factory programming
 <br>
 Some commands will only work if the ECU is in development mode,<br>
 for the 2J ECUs this means they need to have additional RAM installed.<br>
